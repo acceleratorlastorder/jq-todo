@@ -1,15 +1,8 @@
 $(document).ready(function() {
     console.log("salut");
     let list = ["Eat", "Drink", "Breath", "Run", "Laugh", "Playing"];
-    start();
-    /*
-     $( "input" )
-       .keyup(function() {
-         var value = $( this ).val();
-         list.push(value);
-       })
-       .keyup();*/
-    function start() {
+    draw();
+    function draw() {
         for (var i = 0; i < list.length; i++) {
             $('div ul').append('<li>' + list[i] + '</li>')
             $('div ul li').addClass("list");
@@ -24,30 +17,39 @@ $(document).ready(function() {
         }
     };
 
-    $('li').click(function(x) {
-        list.splice(x, 1);
+    function redraw() {
+        clear();
+        draw();
+    };
+
+
+    $('ul').on('click', 'li', function(index) {
+        console.log("HEY");
+        console.log("avant: ", list);
+        var index = $("li").index(this);
+        console.log("this is :", index);
+        list.splice(index, 1);
+        console.log("après: ", list);
+        redraw();
     });
 
     $('#clearbutton').click(function() {
         console.log("let's delete");
         console.log("avant: ", list);
         clear();
-        for (var i = 0; i < list.length; i++) {
-            list.splice(0, list.length);
-            console.log("après: ", list);
-        }
+        list = [];
+        console.log("après: ", list);
     });
 
-    $("form").submit(function() {
+    $("form").submit(function(x) {
         $("input:first").val()
         /*        if (item === null || item === undefined || item === "") {
                     return;
                 }*/
-        console.log("WESH");
+        console.log("la valeur entré est", x);
         list.push($("input:first").val());
         console.log("après: ", list);
-        clear();
-        start();
+        redraw();
         return false;
     });
 
